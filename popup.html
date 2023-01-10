@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Add some styles for the text box */
+        .openai-result-box {
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            position: absolute;
+            z-index: 1000000;
+        }
+        /* Add some styles for the connecting line */
+        .openai-result-line {
+            background-color: #ccc;
+            height: 1px;
+            position: absolute;
+            z-index: 1000000;
+            width: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div id="result"></div>
+    <script>
+        chrome.runtime.onMessage.addListener(function(request) {
+            if (request.type === "result") {
+                const text = request.text;
+                const resultBox = document.createElement("div");
+                resultBox.classList.add("openai-result-box");
+                resultBox.innerText = text;
+
+                const rect = selectedEl.getBoundingClientRect();
+                resultBox.style.top = `${rect.top + window.scrollY}px`;
+                resultBox.style.left = `${rect.left + window.scrollX + rect.width + 10}px`;
+
+                document.body.appendChild(resultBox);
+
+                const line = document.createElement("div");
+                line.classList.add("openai-result-line");
+                line.style.top = `${rect.top + window.scrollY + rect.height / 2}px`;
+                line.style.left
+                line.style.left = `${rect.left + window.scrollX}px`;
+                line.style.height = `${rect.height}px`;
+                line.style.transform = "rotate(30deg)";
+
+                document.body.appendChild(line);
+            }
+        });
+    </script>
+</body>
+</html>
